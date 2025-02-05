@@ -1,11 +1,12 @@
-import { Schema } from "mongoose";
+import { Schema, model } from "mongoose";
+import bcrypt from "bcrypt";
 
 //modify for specific user data
 const UserSchema = new Schema({
-    email:{
+    email: {
         type: String,
         required: true,
-        
+
     },
     username: {
         type: String,
@@ -15,6 +16,10 @@ const UserSchema = new Schema({
         type: String,
         required: true,
     }
+});
+
+UserSchema.pre('save', async function () {
+    this.password = await bcrypt.hashSync(this.password, 10);
 });
 
 const User = model('User', UserSchema);
