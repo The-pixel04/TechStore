@@ -2,6 +2,7 @@ import express from 'express';
 import routes from '../routes.js';
 import handlebars from 'express-handlebars';
 import mongoose from 'mongoose';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.set('views', 'src/views');
 
 app.use(express.static('src/public'));
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.use(routes);
 
 app.listen(3000, () => { console.log('Server started on http://localhost:3000'); });
