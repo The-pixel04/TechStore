@@ -1,6 +1,7 @@
 import { Router } from "express";
 import authService from "../services/authService.js";
 import { isAuth } from "../middlewares/authMiddleware.js";
+import { getErrorMessage } from "../utils/errorUtils.js";
 
 const authController = Router();
 
@@ -11,10 +12,16 @@ authController.get('/login', (req, res) => {
 authController.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
-    const token = await authService.login(email, password);
-    res.cookie('auth', token);
+    try {
+        const token = await authService.login(email, password);
 
-    res.redirect('/');
+        res.cookie('auth', token);
+        res.redirect('/');
+    } catch (err) {
+        res.render('auth/login', { error: getErrorMessage(err), user: { email } });
+    }
+
+
 });
 
 authController.get('/register', (req, res) => {
@@ -24,10 +31,15 @@ authController.get('/register', (req, res) => {
 authController.post('/register', async (req, res) => {
     const userData = req.body;
 
-    const token = await authService.register(userData);
-    res.cookie('auth', token);
-
-    res.redirect('/');
+    try {
+        const token = await authService.register(userData);
+        res.cookie('auth', token);
+        res.redirect('/');
+    } catch (err) {
+        const error = getErrorMessage(err);
+        res.render('auth/register', { error: error, user: userData });
+        return res.redirect('/auth/register');
+    }
 });
 
 authController.get('/logout', isAuth, (req, res) => {
