@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../../config.js";
+import { JWT_SECRET } from "../config.js";
 
 
 const generateToken = (user) => {
