@@ -12,8 +12,6 @@ export const auth = (req, res, next) => {
         const decodedToken = jwt.verify(token, JWT_SECRET);
         req.user = decodedToken;
         res.locals.user = decodedToken;
-
-        next()
     } catch (err) {
         res.clearCookie('auth');
         return res.redirect('/login');
