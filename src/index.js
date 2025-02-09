@@ -21,6 +21,12 @@ app.engine('hbs', handlebars.engine({
     runtimeOptions: {
         allowProtoPropertiesByDefault: true,
         allowProtoMethodsByDefault: true,
+    },
+    helpers:{
+        setTitle(title){
+            this.pageTitle = title;
+            return '';
+        }
     }
 }));
 app.set('view engine', 'hbs');
