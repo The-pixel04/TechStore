@@ -8,7 +8,7 @@ const generateToken = (user) => {
     const payload = {
         id: user._id,
         email: user.email,
-        username: user.username
+        name: user.name
     };
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' });
     return token;
@@ -37,7 +37,7 @@ export default {
             throw new Error('Invalid email or password');
         }
 
-        const isValid = await bcrypt.comparePassword(password, user.password);
+        const isValid = await bcrypt.compare(password, user.password);
 
         if (!isValid) {
             throw new Error('Invalid email or password');
