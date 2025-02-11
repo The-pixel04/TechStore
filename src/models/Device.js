@@ -57,9 +57,10 @@ const DeviceSchema = new Schema({
     ],
     owner: {
         type: Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
-}, { 
+}, {
     timestamps: true
 });
 

@@ -45,10 +45,28 @@ deviceController.get("/:deviceId/prefer", isAuth, async (req, res) => {
         await deviceService.prefer(deviceId, userId);
 
     } catch (err) {
-        res.render('devices/details', {error: getErrorMessage(err)});
+        res.render('devices/details', { error: getErrorMessage(err) });
     }
 
     res.redirect(`/devices/${deviceId}/details`);
+});
+
+deviceController.get("/:deviceId/delete", async (req, res) => {
+    const deviceId = req.params.deviceId;
+    const userId = req.user.id;
+
+    try {
+        await deviceService.remove(deviceId, userId);
+
+        res.redirect('/devices')
+    } catch (err) {
+        res.redirect(`/devices/${deviceId}/details`)
+    }
+
+});
+
+deviceController.get('/:deviceId/edit', async (req, res)=>{
+
 });
 
 export default deviceController;
