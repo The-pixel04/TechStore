@@ -65,8 +65,16 @@ deviceController.get("/:deviceId/delete", async (req, res) => {
 
 });
 
-deviceController.get('/:deviceId/edit', async (req, res)=>{
+deviceController.get('/:deviceId/edit', isAuth, async (req, res) => {
+    const deviceId = req.params.deviceId;
+    const device = await deviceService.getOne(deviceId);
 
+    if (!device.owner.equals(req.user.id)) {
+        // throw new Error('not allowed');
+        return res.redirect(`/devices/${deviceId}/details`)
+    }
+
+    res.render('devices/edit', { device })
 });
 
 export default deviceController;
